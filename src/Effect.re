@@ -21,16 +21,16 @@ type state = { count: int };
 
 [@bs.deriving accessors]
 type action =
-  | RequestIncrement
+  | AsyncIncrement
   | SyncIncrement
   | IncrementComplete(int);
 
 type effect =
-  | Increment((int) => action);  
+  | Increment(int, (int) => action);  
 
 let reducer = (state: state, action: action): (state, option(effect)) => {
   switch(action) {
-  | RequestIncrement => (state, Some(Increment(incrementComplete)))
+  | AsyncIncrement => (state, Some(Increment(state.count, incrementComplete)))
   | SyncIncrement => ({ count: state.count + 1}, None)
   | IncrementComplete(count) =>
     ({ count: count }, None);
@@ -39,9 +39,9 @@ let reducer = (state: state, action: action): (state, option(effect)) => {
 
 let interpreter = (effect, dispatch: ('a) => unit): unit => {
   switch(effect) {
-  | Increment(incrementComplete) =>
+  | Increment(startCount, incrementComplete) =>
     let _ = setTimeout(() => 
-      incrementComplete(5)->dispatch,
+      incrementComplete(startCount + 1)->dispatch,
       1_000
     );
   };
@@ -66,7 +66,7 @@ let make = () => {
 
   <div>
     <button onClick={_ => dispatch(SyncIncrement)}>{React.string("Sync increment")}</button>  
-    <button onClick={_ => dispatch(RequestIncrement)}>{React.string("Async increment")}</button>
+    <button onClick={_ => dispatch(AsyncIncrement)}>{React.string("Async increment")}</button>
     {React.string(string_of_int(state.count))}
   </div>
 };

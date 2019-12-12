@@ -49,7 +49,10 @@ function reducer(state, action) {
     } else {
       return /* tuple */[
               state,
-              /* Increment */[incrementComplete]
+              /* Increment */[
+                state.count,
+                incrementComplete
+              ]
             ];
     }
   } else {
@@ -63,9 +66,10 @@ function reducer(state, action) {
 }
 
 function interpreter(effect, dispatch) {
-  var incrementComplete = effect[0];
+  var incrementComplete = effect[1];
+  var startCount = effect[0];
   setTimeout((function (param) {
-          return Curry._1(dispatch, Curry._1(incrementComplete, 5));
+          return Curry._1(dispatch, Curry._1(incrementComplete, startCount + 1 | 0));
         }), 1000);
   return /* () */0;
 }
@@ -91,19 +95,19 @@ function Effect(Props) {
                     })
                 }, "Sync increment"), React.createElement("button", {
                   onClick: (function (param) {
-                      return Curry._1(dispatch, /* RequestIncrement */0);
+                      return Curry._1(dispatch, /* AsyncIncrement */0);
                     })
                 }, "Async increment"), String(match[0].count));
 }
 
-var requestIncrement = /* RequestIncrement */0;
+var asyncIncrement = /* AsyncIncrement */0;
 
 var syncIncrement = /* SyncIncrement */1;
 
 var make = Effect;
 
 exports.Reffect = Reffect;
-exports.requestIncrement = requestIncrement;
+exports.asyncIncrement = asyncIncrement;
 exports.syncIncrement = syncIncrement;
 exports.incrementComplete = incrementComplete;
 exports.reducer = reducer;
