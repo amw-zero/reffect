@@ -60,10 +60,6 @@ let testReducer = () => {
   Js.log(message);
 };
 
-// let apply = (action) => {
-//   interpreter(reducer(state, action))
-// };
-
 [@react.component]
 let make = () => {
   let (state, dispatch) = Reffect.useReducer({ count: 0 }, reducer, interpreter);
