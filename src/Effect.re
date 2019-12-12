@@ -17,19 +17,6 @@ module Reffect {
   };
 };
 
-let testReducer = () => {
-  let state = { count: 1 };
-  let (nextState, _) = reducer(state, IncrementComplete(2));
-
-  let message = 
-    switch(nextState.count) {
-    | 2 => "Passed"
-    | _ => "Failed"
-    };
-
-  Js.log(message);
-};
-
 type state = { count: int };
 
 [@bs.deriving accessors]
@@ -39,7 +26,7 @@ type action =
   | IncrementComplete(int);
 
 type effect =
-  | Increment(int, (int) => action);  
+  | Increment(int, (int) => action);
 
 let reducer = (state: state, action: action): (state, option(effect)) => {
   switch(action) {

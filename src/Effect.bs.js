@@ -74,16 +74,6 @@ function interpreter(effect, dispatch) {
   return /* () */0;
 }
 
-function testReducer(param) {
-  var match = reducer({
-        count: 1
-      }, /* IncrementComplete */[2]);
-  var match$1 = match[0].count;
-  var message = match$1 !== 2 ? "Failed" : "Passed";
-  console.log(message);
-  return /* () */0;
-}
-
 function Effect(Props) {
   var match = useReducer({
         count: 0
@@ -112,6 +102,5 @@ exports.syncIncrement = syncIncrement;
 exports.incrementComplete = incrementComplete;
 exports.reducer = reducer;
 exports.interpreter = interpreter;
-exports.testReducer = testReducer;
 exports.make = make;
 /* react Not a pure module */
