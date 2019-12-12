@@ -17,6 +17,19 @@ module Reffect {
   };
 };
 
+let testReducer = () => {
+  let state = { count: 1 };
+  let (nextState, _) = reducer(state, IncrementComplete(2));
+
+  let message = 
+    switch(nextState.count) {
+    | 2 => "Passed"
+    | _ => "Failed"
+    };
+
+  Js.log(message);
+};
+
 type state = { count: int };
 
 [@bs.deriving accessors]
@@ -45,19 +58,6 @@ let interpreter = (effect, dispatch: ('a) => unit): unit => {
       1_000
     );
   };
-};
-
-let testReducer = () => {
-  let state = { count: 1 };
-  let (nextState, _) = reducer(state, IncrementComplete(2));
-
-  let message = 
-    switch(nextState.count) {
-    | 2 => "Passed"
-    | _ => "Failed"
-    };
-
-  Js.log(message);
 };
 
 [@react.component]
