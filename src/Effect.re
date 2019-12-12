@@ -5,8 +5,8 @@ module Reffect {
     let (state, setState) = React.useState(() => initialState);
 
     (state, setState)
-    // let dispatch = (effect) => {
-    //   let (nextState, nextEffect) = reducer(state, effect)
+    // let dispatch = (action) => {
+    //   let (nextState, nextEffect) = reducer(state, action)
     //   setState(nextState);
     //   interpreter(nextEffect, dispatch);
     // };
@@ -45,9 +45,10 @@ let testReducer = () => {
 
 [@react.component]
 let make = () => {
-  let (state, dispatch) = Reffect.useReducer({ count: 0 }, reducer, interpreter(state));
+  let (state, dispatch) = Reffect.useReducer({ count: 0 }, reducer, interpreter);
 
   <div>
+    <button onClick={_ => dispatch(RequestIncrement)} />
     {React.string(string_of_int(state.count))}
   </div>
 };
